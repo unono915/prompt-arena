@@ -1,0 +1,13 @@
+# 비밀 값 — 절대 올리지 않는다
+.env
+.env.*
+!.env.example
+
+# 도구·빌드 산출물
+node_modules/
+.netlify/
+__pycache__/
+*.pyc
+*.log
+.omc/
+.claude/settings.local.json

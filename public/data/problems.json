@@ -1,0 +1,1862 @@
+[
+ {
+  "id": "d01",
+  "topic": "조건문",
+  "level": 1,
+  "intent": "정수 n을 입력받아 n이 0보다 크면 '양수'를, 아니면 '음수 또는 0'을 출력하는 코드예요.",
+  "buggy_code": "n = int(input())\nif n > 0\n    print('양수')\nelse:\n    print('음수 또는 0')\n",
+  "fixed_code": "n = int(input())\nif n > 0:\n    print('양수')\nelse:\n    print('음수 또는 0')\n",
+  "bugs": [
+   {
+    "line": 2,
+    "type": "missing-colon",
+    "explanation": "if 조건문 끝에는 콜론이 필요해요. 콜론이 없어서 문법 오류가 발생해요.",
+    "hint": "if 문 끝을 한번 살펴봐 주세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "5",
+    "expected_output": "양수"
+   },
+   {
+    "input": "-3",
+    "expected_output": "음수 또는 0"
+   },
+   {
+    "input": "0",
+    "expected_output": "음수 또는 0"
+   },
+   {
+    "input": "100",
+    "expected_output": "양수"
+   }
+  ],
+  "quiz": {
+   "question": "이 코드에서 실행 오류가 나는 가장 큰 이유는 무엇일까요?",
+   "choices": [
+    "if 조건문 끝에 콜론이 빠져 있어요",
+    "else 문에 콜론이 빠져 있어요",
+    "print 문에 괄호가 빠져 있어요",
+    "변수명이 잘못 쓰였어요"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d02",
+  "topic": "조건문",
+  "level": 1,
+  "intent": "두 정수 a와 b를 한 줄에 공백으로 입력받아 a가 b보다 크면 'a가 더 커요'를, 아니면 'b가 더 크거나 같아요'를 출력하는 코드예요.",
+  "buggy_code": "a, b = input().split()\na = int(a)\nb = int(b)\nif a > b:\n    print('a가 더 커요')\nelse\n    print('b가 더 크거나 같아요')\n",
+  "fixed_code": "a, b = input().split()\na = int(a)\nb = int(b)\nif a > b:\n    print('a가 더 커요')\nelse:\n    print('b가 더 크거나 같아요')\n",
+  "bugs": [
+   {
+    "line": 6,
+    "type": "missing-colon",
+    "explanation": "else 문 끝에도 콜론이 필요해요. 콜론이 없어서 문법 오류가 발생해요.",
+    "hint": "else 문 끝을 한번 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "5 3",
+    "expected_output": "a가 더 커요"
+   },
+   {
+    "input": "3 5",
+    "expected_output": "b가 더 크거나 같아요"
+   },
+   {
+    "input": "4 4",
+    "expected_output": "b가 더 크거나 같아요"
+   },
+   {
+    "input": "10 1",
+    "expected_output": "a가 더 커요"
+   }
+  ],
+  "quiz": {
+   "question": "이 코드에서 실행 오류가 나는 가장 큰 이유는 무엇일까요?",
+   "choices": [
+    "else 문 끝에 콜론이 빠져 있어요",
+    "if 문에 콜론이 빠져 있어요",
+    "input()에 괄호가 빠져 있어요",
+    "print 문에 따옴표가 빠져 있어요"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d03",
+  "topic": "조건문",
+  "level": 1,
+  "intent": "정수 n이 0보다 크면 '양수', 아니면 '음수 또는 0'을 출력하는 코드예요.",
+  "buggy_code": "n = int(input())\nif n > 0\n    print('양수')\nelse:\n    print('음수 또는 0')\n",
+  "fixed_code": "n = int(input())\nif n > 0:\n    print('양수')\nelse:\n    print('음수 또는 0')\n",
+  "bugs": [
+   {
+    "line": 2,
+    "type": "missing-colon",
+    "explanation": "if 문장 끝에 콜론이 없어서 조건문 블록을 시작하지 못해요.",
+    "hint": "조건문 끝에는 항상 무엇이 붙는지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "10",
+    "expected_output": "양수"
+   },
+   {
+    "input": "-1",
+    "expected_output": "음수 또는 0"
+   },
+   {
+    "input": "0",
+    "expected_output": "음수 또는 0"
+   }
+  ],
+  "quiz": {
+   "question": "if 조건문 끝에 반드시 필요한 기호는 무엇인가요?",
+   "choices": [
+    "콜론(:)",
+    "세미콜론(;)",
+    "마침표(.)",
+    "콤마(,)"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d04",
+  "topic": "반복문",
+  "level": 1,
+  "intent": "공백으로 구분된 숫자들을 입력받아 합을 출력하는 코드예요.",
+  "buggy_code": "nums = input().split()\ntotal = 0\nfor n in nums\n    total += int(n)\nprint(total)\n",
+  "fixed_code": "nums = input().split()\ntotal = 0\nfor n in nums:\n    total += int(n)\nprint(total)\n",
+  "bugs": [
+   {
+    "line": 3,
+    "type": "missing-colon",
+    "explanation": "for문 끝에 콜론이 빠져서 문법 오류가 나요.",
+    "hint": "반복문 줄 끝에 :가 있는지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "1 2 3",
+    "expected_output": "6"
+   },
+   {
+    "input": "10",
+    "expected_output": "10"
+   },
+   {
+    "input": "5 5",
+    "expected_output": "10"
+   },
+   {
+    "input": "1 2 3 4",
+    "expected_output": "10"
+   }
+  ],
+  "quiz": {
+   "question": "이 오류의 원인은 무엇일까요?",
+   "choices": [
+    "for문 끝에 콜론이 없어요",
+    "split이 틀렸어요",
+    "total 초기화가 없어요",
+    "print가 없어요"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d05",
+  "topic": "반복문",
+  "level": 1,
+  "intent": "띄어쓰기로 구분된 세 정수를 한 줄에 입력받아 합을 출력하는 코드예요.",
+  "buggy_code": "data = input().split()\ntotal = 0\nfor i in range(3)\n    total += int(data[i])\nprint(total)\n",
+  "fixed_code": "data = input().split()\ntotal = 0\nfor i in range(3):\n    total += int(data[i])\nprint(total)\n",
+  "bugs": [
+   {
+    "line": 3,
+    "type": "missing-colon",
+    "explanation": "for 문의 끝에 콜론이 빠져서 SyntaxError가 나요.",
+    "hint": "반복문의 머리 부분 끝에는 콜론이 들어가야 해요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "1 2 3",
+    "expected_output": "6"
+   },
+   {
+    "input": "0 0 0",
+    "expected_output": "0"
+   },
+   {
+    "input": "-1 1 0",
+    "expected_output": "0"
+   },
+   {
+    "input": "10 20 30",
+    "expected_output": "60"
+   }
+  ],
+  "quiz": {
+   "question": "이 코드에서 SyntaxError가 나는 위치는 어디일까요?",
+   "choices": [
+    "for 문의 끝",
+    "input().split()",
+    "total += 부분",
+    "print(total)"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d06",
+  "topic": "반복문",
+  "level": 1,
+  "intent": "문자열을 한 줄 입력받아 거꾸로 한 줄에 출력하는 코드예요.",
+  "buggy_code": "text = input()\nresult = \"\"\nfor ch in text\n    result = ch + result\nprint(result)\n",
+  "fixed_code": "text = input()\nresult = \"\"\nfor ch in text:\n    result = ch + result\nprint(result)\n",
+  "bugs": [
+   {
+    "line": 3,
+    "type": "missing-colon",
+    "explanation": "for 문 뒤에 콜론이 없어서 SyntaxError가 발생해요.",
+    "hint": "반복문 줄의 마지막에 콜론을 빠뜨리지 않았는지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "abc",
+    "expected_output": "cba"
+   },
+   {
+    "input": "a",
+    "expected_output": "a"
+   },
+   {
+    "input": "1234",
+    "expected_output": "4321"
+   },
+   {
+    "input": "안녕하세요",
+    "expected_output": "요세하녕안"
+   }
+  ],
+  "quiz": {
+   "question": "이 코드가 실행되지 않는 이유는 무엇일까요?",
+   "choices": [
+    "for 문 끝에 콜론이 없어서",
+    "result를 문자열로 초기화하지 않아서",
+    "print를 반복문 안에 넣어서",
+    "input()을 사용하지 않아서"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d07",
+  "topic": "리스트",
+  "level": 1,
+  "intent": "공백으로 구분된 정수들을 입력받아 리스트의 합을 출력하는 코드",
+  "buggy_code": "data = input().split()\nn = len(data)\ntotal = 0\nfor i in range(n)\n    total += int(data[i])\nprint(total)\n",
+  "fixed_code": "data = input().split()\nn = len(data)\ntotal = 0\nfor i in range(n):\n    total += int(data[i])\nprint(total)\n",
+  "bugs": [
+   {
+    "line": 4,
+    "type": "missing-colon",
+    "explanation": "for 문 끝에 콜론이 누락되어 SyntaxError가 발생해요.",
+    "hint": "반복문 헤더 끝에 빠뜨린 구두점을 찾아보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "1 2 3",
+    "expected_output": "6"
+   },
+   {
+    "input": "10",
+    "expected_output": "10"
+   },
+   {
+    "input": "0 0 0",
+    "expected_output": "0"
+   },
+   {
+    "input": "-1 1",
+    "expected_output": "0"
+   }
+  ],
+  "quiz": {
+   "question": "이 오류의 원인은 무엇인가요?",
+   "choices": [
+    "콜론 누락",
+    "괄호 누락",
+    "들여쓰기 오류",
+    "변수명 오타"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d08",
+  "topic": "리스트",
+  "level": 1,
+  "intent": "공백으로 구분된 정수들을 입력받아 최댓값을 출력하는 코드",
+  "buggy_code": "nums = list(map(int, input().split()))\nmax_val = nums[0]\nfor n in nums:\n    if n > max_val\n        max_val = n\nprint(max_val)\n",
+  "fixed_code": "nums = list(map(int, input().split()))\nmax_val = nums[0]\nfor n in nums:\n    if n > max_val:\n        max_val = n\nprint(max_val)\n",
+  "bugs": [
+   {
+    "line": 4,
+    "type": "missing-colon",
+    "explanation": "if 조건문 끝에 콜론이 없어서 문법 오류가 발생해요.",
+    "hint": "조건문 끝에 필요한 기호를 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "3 1 4 1 5",
+    "expected_output": "5"
+   },
+   {
+    "input": "7",
+    "expected_output": "7"
+   },
+   {
+    "input": "-5 -1 -3",
+    "expected_output": "-1"
+   },
+   {
+    "input": "0 0",
+    "expected_output": "0"
+   }
+  ],
+  "quiz": {
+   "question": "max_val을 갱신하는 if 문에서 누락된 것은 무엇인가요?",
+   "choices": [
+    "콜론",
+    "괄호",
+    "따옴표",
+    "들여쓰기"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d09",
+  "topic": "리스트",
+  "level": 1,
+  "intent": "공백으로 구분된 정수들을 한 줄에 입력받아 리스트의 총합을 출력하는 코드",
+  "buggy_code": "nums = input().split()\ntotal = 0\nfor n in nums:\n    total += int(n\nprint(total)\n",
+  "fixed_code": "nums = input().split()\ntotal = 0\nfor n in nums:\n    total += int(n)\nprint(total)\n",
+  "bugs": [
+   {
+    "line": 4,
+    "type": "missing-paren",
+    "explanation": "int(n) 뒤에 닫는 괄호가 빠져서 문법 오류가 발생해요.",
+    "hint": "괄호의 개수가 서로 맞는지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "3 1 2",
+    "expected_output": "6"
+   },
+   {
+    "input": "10 20 30 40",
+    "expected_output": "100"
+   },
+   {
+    "input": "0",
+    "expected_output": "0"
+   },
+   {
+    "input": "100 200",
+    "expected_output": "300"
+   }
+  ],
+  "quiz": {
+   "question": "이 코드에서 총합 계산이 제대로 되지 않는 이유는 무엇인가요?",
+   "choices": [
+    "print 문이 누락되었어요",
+    "int() 호출의 닫는 괄호가 빠졌어요",
+    "split() 대신 list()를 써야 해요",
+    "total을 1로 초기화해야 해요"
+   ],
+   "answer": 1
+  }
+ },
+ {
+  "id": "d10",
+  "topic": "문자열",
+  "level": 1,
+  "intent": "입력받은 문자열의 길이를 출력하는 코드예요.",
+  "buggy_code": "s = input()\nlength = 0\nfor ch in s\n    length += 1\nprint(length)\n",
+  "fixed_code": "s = input()\nlength = 0\nfor ch in s:\n    length += 1\nprint(length)\n",
+  "bugs": [
+   {
+    "line": 3,
+    "type": "missing-colon",
+    "explanation": "for문 끝에 콜론이 없어서 SyntaxError가 나요.",
+    "hint": "반복문 끝에는 ':'가 필요해요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "hello",
+    "expected_output": "5"
+   },
+   {
+    "input": "a",
+    "expected_output": "1"
+   },
+   {
+    "input": "",
+    "expected_output": "0"
+   },
+   {
+    "input": "파이썬",
+    "expected_output": "3"
+   }
+  ],
+  "quiz": {
+   "question": "이 버그의 원인은 무엇인가요?",
+   "choices": [
+    "for문 끝에 콜론이 누락되었어요.",
+    "변수 length가 오타예요.",
+    "print문의 괄호가 빠졌어요.",
+    "input()에 따옴표가 없어요."
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d11",
+  "topic": "함수",
+  "level": 1,
+  "intent": "두 수를 입력받아 덧셈 결과를 반환하는 함수를 정의하고 그 값을 출력하는 코드",
+  "buggy_code": "def add(a, b)\n    return a + b\nx = int(input())\ny = int(input())\nprint(add(x, y))\n",
+  "fixed_code": "def add(a, b):\n    return a + b\nx = int(input())\ny = int(input())\nprint(add(x, y))\n",
+  "bugs": [
+   {
+    "line": 1,
+    "type": "missing-colon",
+    "explanation": "함수 정의 줄 끝에 콜론이 없어서 구문 오류가 발생해요.",
+    "hint": "def 문장은 끝에 콜론을 붙여야 해요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "3\n4",
+    "expected_output": "7"
+   },
+   {
+    "input": "0\n0",
+    "expected_output": "0"
+   },
+   {
+    "input": "10\n-5",
+    "expected_output": "5"
+   },
+   {
+    "input": "100\n200",
+    "expected_output": "300"
+   }
+  ],
+  "quiz": {
+   "question": "함수 정의 줄 끝에 꼭 필요한 기호는 무엇일까요?",
+   "choices": [
+    "콜론(:)",
+    "세미콜론(;) ",
+    "마침표(.)",
+    "콤마(,)"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d12",
+  "topic": "함수",
+  "level": 1,
+  "intent": "입력받은 숫자 두 개를 곱하는 함수를 호출하고 결과를 출력하는 코드",
+  "buggy_code": "def multiply(x, y):\n    return x * y\na = int(input())\nb = int(input())\nprint(multply(a, b))\n",
+  "fixed_code": "def multiply(x, y):\n    return x * y\na = int(input())\nb = int(input())\nprint(multiply(a, b))\n",
+  "bugs": [
+   {
+    "line": 5,
+    "type": "typo-variable",
+    "explanation": "함수 이름을 잘못 적어서 해당 이름을 찾을 수 없다는 오류가 발생해요.",
+    "hint": "호출할 때 적은 이름이 정의한 이름과 같은지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "3\n4",
+    "expected_output": "12"
+   },
+   {
+    "input": "0\n5",
+    "expected_output": "0"
+   },
+   {
+    "input": "7\n-2",
+    "expected_output": "-14"
+   },
+   {
+    "input": "10\n10",
+    "expected_output": "100"
+   }
+  ],
+  "quiz": {
+   "question": "함수를 호출할 때 발생할 수 있는 이름 관련 오류의 원인은 무엇일까요?",
+   "choices": [
+    "정의한 이름과 다르게 적음",
+    "인수가 너무 많음",
+    "반환값이 없음",
+    "입력이 없음"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d13",
+  "topic": "함수",
+  "level": 1,
+  "intent": "두 수를 더하는 함수를 정의하고 호출한 결과를 출력하는 코드",
+  "buggy_code": "def add(a, b):\nreturn a + b\nx = int(input())\ny = int(input())\nprint(add(x, y))\n",
+  "fixed_code": "def add(a, b):\n    return a + b\nx = int(input())\ny = int(input())\nprint(add(x, y))\n",
+  "bugs": [
+   {
+    "line": 2,
+    "type": "indentation",
+    "explanation": "함수 몸체 들여쓰기가 없어서 들여쓰기 오류가 발생해요.",
+    "hint": "함수 정의 다음 줄은 얼마나 들여써야 하는지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "3\n4",
+    "expected_output": "7"
+   },
+   {
+    "input": "0\n0",
+    "expected_output": "0"
+   },
+   {
+    "input": "-1\n1",
+    "expected_output": "0"
+   },
+   {
+    "input": "10\n20",
+    "expected_output": "30"
+   }
+  ],
+  "quiz": {
+   "question": "함수 몸체를 작성할 때 필요한 것은 무엇인가요?",
+   "choices": [
+    "들여쓰기",
+    "괄호",
+    "콜론",
+    "주석"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d14",
+  "topic": "조건문",
+  "level": 2,
+  "intent": "두 정수 a, b를 입력받아 a가 b보다 크면 'up', 같으면 'same', 작으면 'down'을 출력하는 코드",
+  "buggy_code": "a = int(input())\nb = int(input())\nif a < b:\n    print('up')\nelif a == b:\n    print('same')\nelse:\n    print('down')\n",
+  "fixed_code": "a = int(input())\nb = int(input())\nif a > b:\n    print('up')\nelif a == b:\n    print('same')\nelse:\n    print('down')\n",
+  "bugs": [
+   {
+    "line": 3,
+    "type": "wrong-comparison",
+    "explanation": "a가 b보다 클 때 'up'을 출력해야 하는데, a < b 조건으로 반대로 되어 있어요.",
+    "hint": "크다와 작다를 비교하는 기호가 맞는지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "5\n3",
+    "expected_output": "up"
+   },
+   {
+    "input": "3\n5",
+    "expected_output": "down"
+   },
+   {
+    "input": "4\n4",
+    "expected_output": "same"
+   },
+   {
+    "input": "0\n0",
+    "expected_output": "same"
+   }
+  ],
+  "quiz": {
+   "question": "a가 b보다 클 때 'up'을 출력하려면 어떤 비교 연산자가 맞나요?",
+   "choices": [
+    "<",
+    ">",
+    "<=",
+    "=="
+   ],
+   "answer": 1
+  }
+ },
+ {
+  "id": "d15",
+  "topic": "조건문",
+  "level": 2,
+  "intent": "세 정수 a, b, c를 입력받아 세 수가 모두 10 이상이면 'pass', 아니면 'fail'을 출력하는 코드",
+  "buggy_code": "a, b, c = map(int, input().split())\nif a >= 10 and b >= 10 or c >= 10:\n    print('pass')\nelse:\n    print('fail')\n",
+  "fixed_code": "a, b, c = map(int, input().split())\nif a >= 10 and b >= 10 and c >= 10:\n    print('pass')\nelse:\n    print('fail')\n",
+  "bugs": [
+   {
+    "line": 2,
+    "type": "and-or",
+    "explanation": "세 수가 모두 10 이상이어야 하는데, 마지막 조건만 or로 연결되어 c만 10 이상이면 pass가 돼요.",
+    "hint": "모든 조건을 만족시키려면 and와 or 중 무엇을 써야 할지 생각해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "10 10 10",
+    "expected_output": "pass"
+   },
+   {
+    "input": "10 10 9",
+    "expected_output": "fail"
+   },
+   {
+    "input": "9 10 10",
+    "expected_output": "fail"
+   },
+   {
+    "input": "11 12 13",
+    "expected_output": "pass"
+   }
+  ],
+  "quiz": {
+   "question": "세 조건이 모두 참이어야 할 때 사용해야 하는 논리 연산자는?",
+   "choices": [
+    "and",
+    "or",
+    "not",
+    "xor"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d16",
+  "topic": "조건문",
+  "level": 2,
+  "intent": "정수 n을 입력받아 n이 짝수면 'even', 홀수면 'odd'를 출력하는 코드",
+  "buggy_code": "n = int(input())\nif n % 2 == 0:\n    print('odd')\nelse:\n    print('even')\n",
+  "fixed_code": "n = int(input())\nif n % 2 == 0:\n    print('even')\nelse:\n    print('odd')\n",
+  "bugs": [
+   {
+    "line": 3,
+    "type": "wrong-variable",
+    "explanation": "나머지가 0일 때 짝수인데 출력할 문자열이 서로 바뀌어 있어요.",
+    "hint": "짝수와 홀수를 구분하는 기준을 다시 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "4",
+    "expected_output": "even"
+   },
+   {
+    "input": "7",
+    "expected_output": "odd"
+   },
+   {
+    "input": "0",
+    "expected_output": "even"
+   }
+  ],
+  "quiz": {
+   "question": "n % 2 == 0일 때 n이 무엇인지 맞혀 보세요.",
+   "choices": [
+    "짝수",
+    "홀수",
+    "소수",
+    "음수"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d17",
+  "topic": "반복문",
+  "level": 2,
+  "intent": "정수 n을 입력받아 1부터 n까지의 합을 출력하는 코드",
+  "buggy_code": "n = int(input())\ntotal = 0\nfor i in range(1, n):\n    total += i\nprint(total)\n",
+  "fixed_code": "n = int(input())\ntotal = 0\nfor i in range(1, n + 1):\n    total += i\nprint(total)\n",
+  "bugs": [
+   {
+    "line": 3,
+    "type": "off-by-one",
+    "explanation": "range(1, n)은 n보다 하나 작은 수까지만 반복해서 n의 값이 더해지지 않아요.",
+    "hint": "반복이 마지막 수까지 도는지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "5",
+    "expected_output": "15"
+   },
+   {
+    "input": "1",
+    "expected_output": "1"
+   },
+   {
+    "input": "3",
+    "expected_output": "6"
+   },
+   {
+    "input": "10",
+    "expected_output": "55"
+   }
+  ],
+  "quiz": {
+   "question": "range(1, n)이 만드는 마지막 수는?",
+   "choices": [
+    "n-1",
+    "n",
+    "n+1",
+    "1"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d18",
+  "topic": "반복문",
+  "level": 2,
+  "intent": "공백으로 구분된 정수들을 한 줄로 입력받아 짝수만 골라 합을 출력하는 코드",
+  "buggy_code": "nums = input().split()\ntotal = 0\nfor x in nums:\n    if int(x) % 2 == 0:\n        total += x\nprint(total)\n",
+  "fixed_code": "nums = input().split()\ntotal = 0\nfor x in nums:\n    if int(x) % 2 == 0:\n        total += int(x)\nprint(total)\n",
+  "bugs": [
+   {
+    "line": 5,
+    "type": "type-conversion",
+    "explanation": "total에 문자열 x를 더하면 숫자가 아니라 문자열이 이어져서 합계가 제대로 계산되지 않아요.",
+    "hint": "더하는 값의 자료형이 int인지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "2 4 6",
+    "expected_output": "12"
+   },
+   {
+    "input": "1 3 5",
+    "expected_output": "0"
+   },
+   {
+    "input": "10",
+    "expected_output": "10"
+   },
+   {
+    "input": "3 2 5 4",
+    "expected_output": "6"
+   }
+  ],
+  "quiz": {
+   "question": "total += x에서 x와 total의 자료형이 맞지 않을 때 생기는 문제는?",
+   "choices": [
+    "문법 오류가 발생한다",
+    "문자열이 연결되어 숫자 합이 아니다",
+    "반복문이 멈춘다",
+    "입력값이 정수로 바뀐다"
+   ],
+   "answer": 1
+  }
+ },
+ {
+  "id": "d19",
+  "topic": "반복문",
+  "level": 2,
+  "intent": "정수 n을 입력받아 1부터 n까지의 곱을 출력하는 코드",
+  "buggy_code": "n = int(input())\nresult = 1\nfor i in range(1, n):\n    result *= i\nprint(result)\n",
+  "fixed_code": "n = int(input())\nresult = 1\nfor i in range(1, n + 1):\n    result *= i\nprint(result)\n",
+  "bugs": [
+   {
+    "line": 3,
+    "type": "off-by-one",
+    "explanation": "range(1, n)은 n을 포함하지 않아서 마지막 수 n이 곱해지지 않아요.",
+    "hint": "range의 끝값이 반복에 포함되는지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "5",
+    "expected_output": "120"
+   },
+   {
+    "input": "1",
+    "expected_output": "1"
+   },
+   {
+    "input": "3",
+    "expected_output": "6"
+   },
+   {
+    "input": "4",
+    "expected_output": "24"
+   }
+  ],
+  "quiz": {
+   "question": "range(1, n)이 만드는 마지막 수는?",
+   "choices": [
+    "n-1",
+    "n",
+    "n+1",
+    "1"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d20",
+  "topic": "리스트",
+  "level": 2,
+  "intent": "정수 리스트를 입력받아 짝수만 골라 그 합을 출력하는 코드",
+  "buggy_code": "nums = list(map(int, input().split()))\ntotal = 0\nfor x in nums:\n    if x % 2 == 1:\n        total += x\nprint(total)\n",
+  "fixed_code": "nums = list(map(int, input().split()))\ntotal = 0\nfor x in nums:\n    if x % 2 == 0:\n        total += x\nprint(total)\n",
+  "bugs": [
+   {
+    "line": 4,
+    "type": "wrong-comparison",
+    "explanation": "x % 2 == 1은 홀수를 걸러서 짝수의 합을 구하는 의도와 반대예요.",
+    "hint": "짝수를 판별하는 나머지 조건을 다시 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "1 2 3 4 5",
+    "expected_output": "6"
+   },
+   {
+    "input": "1 3 5",
+    "expected_output": "0"
+   },
+   {
+    "input": "2 4 6",
+    "expected_output": "12"
+   },
+   {
+    "input": "10",
+    "expected_output": "10"
+   }
+  ],
+  "quiz": {
+   "question": "이 코드에서 짝수만 골라내려면 어떤 조건을 써야 하나요?",
+   "choices": [
+    "x % 2 == 0",
+    "x % 2 == 1",
+    "x % 2 != 0",
+    "x // 2 == 0"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d21",
+  "topic": "리스트",
+  "level": 2,
+  "intent": "문자열 리스트를 입력받아 길이가 5 이상인 단어만 새 리스트로 만들어 출력하는 코드",
+  "buggy_code": "words = input().split()\nresult = []\nfor w in words:\n    if len(w) > 5:\n        result.append(w)\nprint(result)\n",
+  "fixed_code": "words = input().split()\nresult = []\nfor w in words:\n    if len(w) >= 5:\n        result.append(w)\nprint(result)\n",
+  "bugs": [
+   {
+    "line": 4,
+    "type": "wrong-comparison",
+    "explanation": "len(w) > 5는 길이가 정확히 5인 단어를 제외해서 의도와 달라요.",
+    "hint": "5 이상이라는 조건을 어떻게 표현할지 생각해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "hello world python code",
+    "expected_output": "['hello', 'world', 'python']"
+   },
+   {
+    "input": "a ab abc abcd abcde abcdef",
+    "expected_output": "['abcde', 'abcdef']"
+   },
+   {
+    "input": "hi hey",
+    "expected_output": "[]"
+   },
+   {
+    "input": "python",
+    "expected_output": "['python']"
+   }
+  ],
+  "quiz": {
+   "question": "길이가 5 이상인 단어를 고르려면 비교 연산자를 어떻게 바꿔야 하나요?",
+   "choices": [
+    ">=",
+    ">",
+    "==",
+    "<="
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d22",
+  "topic": "리스트",
+  "level": 2,
+  "intent": "정수 리스트를 입력받아 짝수만 골라 그 합을 출력하는 코드예요.",
+  "buggy_code": "nums = list(map(int, input().split()))\nsum_even = 0\nfor x in nums:\n    if x % 2 == 1:\n        sum_even += x\nprint(sum_even)\n",
+  "fixed_code": "nums = list(map(int, input().split()))\nsum_even = 0\nfor x in nums:\n    if x % 2 == 0:\n        sum_even += x\nprint(sum_even)\n",
+  "bugs": [
+   {
+    "line": 4,
+    "type": "wrong-comparison",
+    "explanation": "짝수를 골라야 하는데 2로 나눈 나머지가 1인 홀수만 더하고 있어요.",
+    "hint": "짝수와 홀수를 구분하는 나머지 조건을 다시 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "1 2 3 4 5",
+    "expected_output": "6"
+   },
+   {
+    "input": "10 20 30",
+    "expected_output": "60"
+   },
+   {
+    "input": "3 5 7",
+    "expected_output": "0"
+   },
+   {
+    "input": "2",
+    "expected_output": "2"
+   }
+  ],
+  "quiz": {
+   "question": "짝수를 골라 더하는 조건에서 비교 연산자는 무엇이어야 할까요?",
+   "choices": [
+    "x % 2 == 0",
+    "x % 2 == 1",
+    "x % 2 != 0",
+    "x % 2 > 0"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d23",
+  "topic": "문자열",
+  "level": 2,
+  "intent": "단어 두 개를 입력받아 사전 순으로 앞서는 단어를 출력해요.",
+  "buggy_code": "word1 = input()\nword2 = input()\nif word1 > word2:\n    print(word1)\nelse:\n    print(word2)\n",
+  "fixed_code": "word1 = input()\nword2 = input()\nif word1 < word2:\n    print(word1)\nelse:\n    print(word2)\n",
+  "bugs": [
+   {
+    "line": 3,
+    "type": "wrong-comparison",
+    "explanation": "비교 연산자가 반대라서 사전 순으로 더 뒤에 있는 단어가 출력돼요.",
+    "hint": "사전 순으로 앞서는 단어를 고르려면 어떤 비교 기호를 써야 할지 생각해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "banana\napple",
+    "expected_output": "apple"
+   },
+   {
+    "input": "apple\nbanana",
+    "expected_output": "apple"
+   },
+   {
+    "input": "cat\ncat",
+    "expected_output": "cat"
+   },
+   {
+    "input": "z\na",
+    "expected_output": "a"
+   }
+  ],
+  "quiz": {
+   "question": "이 버그의 원인으로 가장 알맞은 것은 무엇인가요?",
+   "choices": [
+    "비교 연산자 방향이 반대예요",
+    "input()을 두 번 쓰면 안 돼요",
+    "문자열은 비교할 수 없어요",
+    "print() 안에 변수를 넣으면 안 돼요"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d24",
+  "topic": "문자열",
+  "level": 2,
+  "intent": "숫자 두 개를 문자열로 입력받아 합이 짝수인지 판별해요.",
+  "buggy_code": "a = input()\nb = input()\nif int(a) + int(b) % 2 == 0:\n    print('짝수')\nelse:\n    print('홀수')\n",
+  "fixed_code": "a = input()\nb = input()\nif (int(a) + int(b)) % 2 == 0:\n    print('짝수')\nelse:\n    print('홀수')\n",
+  "bugs": [
+   {
+    "line": 3,
+    "type": "wrong-operator",
+    "explanation": "괄호가 없어서 덧셈보다 나머지 연산이 먼저 계산돼서 합이 아니라 b만 2로 나눈 나머지로 판별해요.",
+    "hint": "덧셈과 나머지 연산 중 어떤 것이 먼저 계산되는지 순서를 생각해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "3\n5",
+    "expected_output": "짝수"
+   },
+   {
+    "input": "2\n4",
+    "expected_output": "짝수"
+   },
+   {
+    "input": "1\n2",
+    "expected_output": "홀수"
+   },
+   {
+    "input": "10\n1",
+    "expected_output": "홀수"
+   }
+  ],
+  "quiz": {
+   "question": "이 버그의 원인으로 가장 알맞은 것은 무엇인가요?",
+   "choices": [
+    "연산 순서가 잘못되어 괄호가 필요해요",
+    "input()은 숫자를 바로 받을 수 없어요",
+    "짝수와 홀수를 반대로 출력했어요",
+    "나머지 연산자는 쓸 수 없어요"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d25",
+  "topic": "문자열",
+  "level": 2,
+  "intent": "문자열을 입력받아 길이가 5 이상인지 판별해요.",
+  "buggy_code": "text = input()\nif len(text) > 5:\n    print('길어요')\nelse:\n    print('짧아요')\n",
+  "fixed_code": "text = input()\nif len(text) >= 5:\n    print('길어요')\nelse:\n    print('짧아요')\n",
+  "bugs": [
+   {
+    "line": 2,
+    "type": "wrong-comparison",
+    "explanation": "비교 연산자가 >로 되어 있어서 길이가 정확히 5일 때 '짧아요'라고 출력해요.",
+    "hint": "길이가 5인 경우를 어떻게 처리해야 할지 생각해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "hello",
+    "expected_output": "길어요"
+   },
+   {
+    "input": "hi",
+    "expected_output": "짧아요"
+   },
+   {
+    "input": "hello!",
+    "expected_output": "길어요"
+   },
+   {
+    "input": "a",
+    "expected_output": "짧아요"
+   }
+  ],
+  "quiz": {
+   "question": "이 버그의 원인은 무엇인가요?",
+   "choices": [
+    "비교 연산자가 >= 대신 >로 되어 있어요",
+    "len() 대신 length()를 썼어요",
+    "문자열을 정수로 변환하지 않았어요",
+    "print() 안에 따옴표가 없어요"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d26",
+  "topic": "함수",
+  "level": 2,
+  "intent": "두 정수를 입력받아 더 큰 값을 출력하는 함수",
+  "buggy_code": "def get_max(a, b):\n    if a < b:\n        return a\n    else:\n        return b\n\nx = int(input())\ny = int(input())\nprint(get_max(x, y))\n",
+  "fixed_code": "def get_max(a, b):\n    if a > b:\n        return a\n    else:\n        return b\n\nx = int(input())\ny = int(input())\nprint(get_max(x, y))\n",
+  "bugs": [
+   {
+    "line": 2,
+    "type": "wrong-comparison",
+    "explanation": "비교 연산자가 반대라서 더 작은 값을 반환해요.",
+    "hint": "더 큰 값을 고르려면 어떤 비교 연산자를 써야 하는지 생각해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "5\n3",
+    "expected_output": "5"
+   },
+   {
+    "input": "2\n7",
+    "expected_output": "7"
+   },
+   {
+    "input": "4\n4",
+    "expected_output": "4"
+   },
+   {
+    "input": "10\n1",
+    "expected_output": "10"
+   }
+  ],
+  "quiz": {
+   "question": "두 수 중 더 큰 값을 찾는 if 조건에 알맞은 연산자는?",
+   "choices": [
+    "a < b",
+    "a > b",
+    "a == b",
+    "a != b"
+   ],
+   "answer": 1
+  }
+ },
+ {
+  "id": "d27",
+  "topic": "함수",
+  "level": 2,
+  "intent": "문자열을 받아 반대 문자열을 반환하는 함수",
+  "buggy_code": "def reverse_text(s):\n    return s[::-1]\n\ndef is_palindrome(s):\n    return s == reverse_text(s) and len(s) > 0\n\nt = input()\nprint(is_palindrome(t))\n",
+  "fixed_code": "def reverse_text(s):\n    return s[::-1]\n\ndef is_palindrome(s):\n    return s == reverse_text(s) or len(s) == 0\n\nt = input()\nprint(is_palindrome(t))\n",
+  "bugs": [
+   {
+    "line": 5,
+    "type": "and-or",
+    "explanation": "and를 쓰면 빈 문자열이 회문이 아니라고 나와요.",
+    "hint": "빈 문자열도 거꾸로 읽으면 같으니 논리 연산자를 다시 연결해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "racecar",
+    "expected_output": "True"
+   },
+   {
+    "input": "hello",
+    "expected_output": "False"
+   },
+   {
+    "input": "",
+    "expected_output": "True"
+   },
+   {
+    "input": "aba",
+    "expected_output": "True"
+   }
+  ],
+  "quiz": {
+   "question": "빈 문자열도 회문으로 인정하려면 어떤 논리 연산자를 써야 하나요?",
+   "choices": [
+    "and",
+    "or",
+    "not",
+    "xor"
+   ],
+   "answer": 1
+  }
+ },
+ {
+  "id": "d28",
+  "topic": "함수",
+  "level": 2,
+  "intent": "두 정수를 입력받아 큰 값을 함수 안에서 비교해 출력하는 코드",
+  "buggy_code": "def compare(a, b):\n    if a < b:\n        print(a)\n    else:\n        print(b)\n\nx = int(input())\ny = int(input())\ncompare(x, y)\n",
+  "fixed_code": "def compare(a, b):\n    if a > b:\n        print(a)\n    else:\n        print(b)\n\nx = int(input())\ny = int(input())\ncompare(x, y)\n",
+  "bugs": [
+   {
+    "line": 2,
+    "type": "wrong-comparison",
+    "explanation": "비교 연산자가 반대로 되어 작은 수를 출력해요.",
+    "hint": "큰 값을 고르려면 어떤 비교 기호를 써야 할지 생각해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "10\n3",
+    "expected_output": "10"
+   },
+   {
+    "input": "5\n5",
+    "expected_output": "5"
+   },
+   {
+    "input": "1\n9",
+    "expected_output": "9"
+   },
+   {
+    "input": "7\n2",
+    "expected_output": "7"
+   }
+  ],
+  "quiz": {
+   "question": "이 버그의 원인은 무엇인가요?",
+   "choices": [
+    "비교 연산자가 반대로 되어 작은 수를 출력한다",
+    "함수가 값을 반환하지 않는다",
+    "입력을 문자열로 받았다",
+    "print를 두 번 호출했다"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d29",
+  "topic": "조건문",
+  "level": 3,
+  "intent": "정수 n과 m을 입력받아 n이 m보다 크면 'A', 같으면 'B', 작으면 'C'를 출력하는 코드",
+  "buggy_code": "n = int(input())\nm = int(input())\ndef compare(a, b):\n    if a > b:\n        return 'A'\n    elif a == b:\n        return 'B'\n    else:\n        print('C')\nprint(compare(n, m))\n",
+  "fixed_code": "n = int(input())\nm = int(input())\ndef compare(a, b):\n    if a > b:\n        return 'A'\n    elif a == b:\n        return 'B'\n    else:\n        return 'C'\nprint(compare(n, m))\n",
+  "bugs": [
+   {
+    "line": 9,
+    "type": "missing-return",
+    "explanation": "else문에서 return이 아니라 print를 사용해서 함수가 값을 반환하지 않아요.",
+    "hint": "함수가 호출한 곳으로 값을 전달하려면 print가 아닌 return을 써야 해요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "5\n3",
+    "expected_output": "A"
+   },
+   {
+    "input": "3\n3",
+    "expected_output": "B"
+   },
+   {
+    "input": "2\n5",
+    "expected_output": "C"
+   },
+   {
+    "input": "10\n1",
+    "expected_output": "A"
+   }
+  ],
+  "quiz": {
+   "question": "이 코드에서 n이 m보다 작을 때 출력이 None으로 나오는 이유는?",
+   "choices": [
+    "compare 함수가 else에서 값을 반환하지 않아서요",
+    "input 순서가 뒤바뀌어서요",
+    "if 조건문에 등호가 빠져서요",
+    "print가 함수 안에 있어서요"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d30",
+  "topic": "조건문",
+  "level": 3,
+  "intent": "정수 n과 m을 입력받아 n이 m보다 크면 'A', 같으면 'B', 작으면 'C'를 반환하는 함수를 쓰고 결과를 출력하는 코드",
+  "buggy_code": "def compare(n, m):\n    if n > m:\n        return 'A'\n    elif n == m:\n        return 'B'\n    elif n < m:\n        return 'C'\nn, m = map(int, input().split())\nprint(compare(m, n))\n",
+  "fixed_code": "def compare(n, m):\n    if n > m:\n        return 'A'\n    elif n == m:\n        return 'B'\n    elif n < m:\n        return 'C'\nn, m = map(int, input().split())\nprint(compare(n, m))\n",
+  "bugs": [
+   {
+    "line": 9,
+    "type": "argument-order",
+    "explanation": "compare(m, n)으로 인자를 뒤바꿔 넣어서 n이 m보다 큰지 비교하는 의도와 반대로 동작해요.",
+    "hint": "함수 정의와 호출에서 인자 순서가 같은지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "5 3",
+    "expected_output": "A"
+   },
+   {
+    "input": "3 3",
+    "expected_output": "B"
+   },
+   {
+    "input": "2 5",
+    "expected_output": "C"
+   },
+   {
+    "input": "10 1",
+    "expected_output": "A"
+   }
+  ],
+  "quiz": {
+   "question": "이 버그의 원인으로 가장 알맞은 것은?",
+   "choices": [
+    "함수 정의에서 return이 누락되었다",
+    "함수 호출 시 인자 순서가 뒤바뀌었다",
+    "조건문에서 비교 연산자가 틀렸다",
+    "input()을 두 번 받아야 한다"
+   ],
+   "answer": 1
+  }
+ },
+ {
+  "id": "d31",
+  "topic": "조건문",
+  "level": 3,
+  "intent": "정수 n을 입력받아 1부터 n까지의 짝수 합을 반환하는 함수를 쓰고 결과를 출력하는 코드",
+  "buggy_code": "def even_sum(n):\n    total = 0\n    for i in range(1, n + 1):\n        if i % 2 == 0:\n            total += i\n\nn = int(input())\nprint(even_sum(n))\n",
+  "fixed_code": "def even_sum(n):\n    total = 0\n    for i in range(1, n + 1):\n        if i % 2 == 0:\n            total += i\n    return total\n\nn = int(input())\nprint(even_sum(n))\n",
+  "bugs": [
+   {
+    "line": 5,
+    "type": "missing-return",
+    "explanation": "함수 안에 return 문이 없어서 None이 출력돼요.",
+    "hint": "함수 끝에 반환값이 있는지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "6",
+    "expected_output": "12"
+   },
+   {
+    "input": "1",
+    "expected_output": "0"
+   },
+   {
+    "input": "10",
+    "expected_output": "30"
+   }
+  ],
+  "quiz": {
+   "question": "이 함수에서 결과가 제대로 출력되지 않는 이유는 무엇일까요?",
+   "choices": [
+    "return 문이 누락되어 있어요",
+    "반복 범위가 잘못되어 있어요",
+    "조건문이 반대로 되어 있어요",
+    "입력받는 방식이 잘못되어 있어요"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d32",
+  "topic": "반복문",
+  "level": 3,
+  "intent": "정수 n과 n개의 점수를 한 줄씩 입력받아 평균을 계산해 반환하는 함수를 실행하고 결과를 출력해요.",
+  "buggy_code": "def calc_avg(n):\n    total = 0\n    for i in range(n):\n        score = int(input())\n        total += score\n    avg = total / n\n\nn = int(input())\ncalc_avg(n)\nprint(avg)\n",
+  "fixed_code": "def calc_avg(n):\n    total = 0\n    for i in range(n):\n        score = int(input())\n        total += score\n    avg = total / n\n    return avg\n\nn = int(input())\nresult = calc_avg(n)\nprint(result)\n",
+  "bugs": [
+   {
+    "line": 9,
+    "type": "missing-return",
+    "explanation": "함수에서 avg를 return하지 않아서 밖에서 avg 변수를 사용할 수 없어요.",
+    "hint": "함수 결과를 바깥에서 쓰려면 함수 끝에 무엇을 적어야 하는지 생각해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "3\n10\n20\n30",
+    "expected_output": "20.0"
+   },
+   {
+    "input": "1\n100",
+    "expected_output": "100.0"
+   },
+   {
+    "input": "5\n10\n20\n30\n40\n50",
+    "expected_output": "30.0"
+   },
+   {
+    "input": "4\n80\n80\n80\n80",
+    "expected_output": "80.0"
+   }
+  ],
+  "quiz": {
+   "question": "함수 안에서 계산한 값을 바깥에서 사용하려면 함수 끝에 어떤 문장이 필요할까요?",
+   "choices": [
+    "return",
+    "print",
+    "input",
+    "for"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d33",
+  "topic": "반복문",
+  "level": 3,
+  "intent": "정수 limit을 한 줄 입력받아 1부터 limit까지 출력한 뒤 총합을 반환하는 함수를 실행하고 결과를 출력해요.",
+  "buggy_code": "def sum_and_print(limit):\n    total = 0\n    i = 1\n    while i <= limit:\n        print(i)\n        total += i\n    return total\n\nn = int(input())\nresult = sum_and_print(n)\nprint(result)\n",
+  "fixed_code": "def sum_and_print(limit):\n    total = 0\n    i = 1\n    while i <= limit:\n        print(i)\n        total += i\n        i += 1\n    return total\n\nn = int(input())\nresult = sum_and_print(n)\nprint(result)\n",
+  "bugs": [
+   {
+    "line": 6,
+    "type": "infinite-loop",
+    "explanation": "반복 변수 i를 증가시키지 않아서 조건이 계속 참인 상태로 멈춰요.",
+    "hint": "while 반복문이 끝나려면 어떤 변수가 어떻게 바뀌어야 하는지 생각해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "3",
+    "expected_output": "1\n2\n3\n6"
+   },
+   {
+    "input": "1",
+    "expected_output": "1\n1"
+   },
+   {
+    "input": "5",
+    "expected_output": "1\n2\n3\n4\n5\n15"
+   },
+   {
+    "input": "10",
+    "expected_output": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n55"
+   }
+  ],
+  "quiz": {
+   "question": "while 반복문이 한 번 돌 때마다 반복 변수의 값이 바뀌어야 하는 이유는 무엇일까요?",
+   "choices": [
+    "종료 조건에 도달하기 위해서",
+    "출력 속도를 빠르게 하려고",
+    "변수를 초기화하려고",
+    "함수를 정의하려고"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d34",
+  "topic": "리스트",
+  "level": 3,
+  "intent": "공백으로 구분된 정수 리스트와 인덱스 k를 입력받아 k번째 원소를 출력하는 코드예요.",
+  "buggy_code": "def get_element(lst, k):\n    return lst[k + 1]\n\ndata = list(map(int, input().split()))\nk = int(input())\nprint(get_element(data, k))\n",
+  "fixed_code": "def get_element(lst, k):\n    return lst[k]\n\ndata = list(map(int, input().split()))\nk = int(input())\nprint(get_element(data, k))\n",
+  "bugs": [
+   {
+    "line": 2,
+    "type": "index-range",
+    "explanation": "lst[k + 1]로 접근해서 원하는 위치보다 한 칸 뒤를 읽거나 범위를 벗어날 수 있어요.",
+    "hint": "인덱스를 더할 때 실제 원하는 위치와 맞는지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "10 20 30\n1",
+    "expected_output": "20"
+   },
+   {
+    "input": "5 6 7\n0",
+    "expected_output": "5"
+   },
+   {
+    "input": "1 2 3 4 5\n4",
+    "expected_output": "5"
+   },
+   {
+    "input": "100 200\n1",
+    "expected_output": "200"
+   }
+  ],
+  "quiz": {
+   "question": "리스트의 k번째 원소를 올바르게 참조하려면 어떻게 해야 하나요?",
+   "choices": [
+    "lst[k]",
+    "lst[k+1]",
+    "lst[k-1]",
+    "lst[0]"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d35",
+  "topic": "리스트",
+  "level": 3,
+  "intent": "공백으로 구분된 정수 리스트를 입력받아 모든 원소의 합을 반환하는 함수 코드예요.",
+  "buggy_code": "nums = list(map(int, input().split()))\ndef sum_list(lst):\n    total = 0\n    for i in range(len(lst)):\n        total += lst[i]\ndef main():\n    print(sum_list(nums))\nmain()\n",
+  "fixed_code": "nums = list(map(int, input().split()))\ndef sum_list(lst):\n    total = 0\n    for i in range(len(lst)):\n        total += lst[i]\n    return total\ndef main():\n    print(sum_list(nums))\nmain()\n",
+  "bugs": [
+   {
+    "line": 5,
+    "type": "missing-return",
+    "explanation": "sum_list 함수에서 total을 반환하지 않아 None이 출력돼요.",
+    "hint": "함수 마지막에 반환문이 있는지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "1 2 3",
+    "expected_output": "6"
+   },
+   {
+    "input": "10",
+    "expected_output": "10"
+   },
+   {
+    "input": "5 5 5 5",
+    "expected_output": "20"
+   },
+   {
+    "input": "0 0 0",
+    "expected_output": "0"
+   }
+  ],
+  "quiz": {
+   "question": "이 코드의 버그 원인은 무엇인가요?",
+   "choices": [
+    "반복문이 리스트를 끝까지 순회하지 않아요",
+    "함수에서 계산 결과를 반환하지 않아요",
+    "변수 total이 초기화되지 않았어요",
+    "함수 이름이 잘못되었어요"
+   ],
+   "answer": 1
+  }
+ },
+ {
+  "id": "d36",
+  "topic": "리스트",
+  "level": 3,
+  "intent": "공백으로 구분된 정수 리스트를 입력받아 짝수만 모아 새 리스트로 반환하는 함수 코드예요.",
+  "buggy_code": "def evens_only(lst):\n    res = []\n    i = 0\n    while i < len(lst):\n        if lst[i] % 2 == 0:\n            res.append(lst[i])\n    i += 1\n    return res\n\ndata = input().split()\nnums = [int(x) for x in data]\nprint(evens_only(nums))\n",
+  "fixed_code": "def evens_only(lst):\n    res = []\n    i = 0\n    while i < len(lst):\n        if lst[i] % 2 == 0:\n            res.append(lst[i])\n        i += 1\n    return res\n\ndata = input().split()\nnums = [int(x) for x in data]\nprint(evens_only(nums))\n",
+  "bugs": [
+   {
+    "line": 7,
+    "type": "infinite-loop",
+    "explanation": "i += 1이 while문 밖에 있어서 i가 늘어나지 않아 무한 루프에 빠져요.",
+    "hint": "반복 변수를 언제 증가시키는지 들여쓰기를 확인해 보세요."
+   },
+   {
+    "line": 7,
+    "type": "index-range",
+    "explanation": "리스트 길이가 변하거나 비어 있으면 while 조건만으로는 안전하지 않을 수 있어요.",
+    "hint": "인덱스 접근 전에 길이 조건을 먼저 생각해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "1 2 3 4 5",
+    "expected_output": "[2, 4]"
+   },
+   {
+    "input": "2 4 6",
+    "expected_output": "[2, 4, 6]"
+   },
+   {
+    "input": "1 3 5",
+    "expected_output": "[]"
+   },
+   {
+    "input": "7",
+    "expected_output": "[]"
+   }
+  ],
+  "quiz": {
+   "question": "이 코드에서 while문이 끝나지 않는 이유는 무엇인가요?",
+   "choices": [
+    "반복 변수 i를 증가시키지 않기 때문이에요",
+    "리스트에 짝수가 없기 때문이에요",
+    "return이 없기 때문이에요",
+    "len(lst)가 0이기 때문이에요"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d37",
+  "topic": "문자열",
+  "level": 3,
+  "intent": "문자열 s와 인덱스 i를 입력받아 s의 i번째 문자를 대문자로 바꾸되, 인덱스가 범위를 벗어나면 원래 문자열을 그대로 출력해요.",
+  "buggy_code": "def change_char(s, i):\n    if i < 0 or i > len(s):\n        return s\n    c = s[i]\n    s = s[:i] + c.upper() + s[i+1:]\n\ns = input()\ni = int(input())\nprint(change_char(s, i))\n",
+  "fixed_code": "def change_char(s, i):\n    if i < 0 or i >= len(s):\n        return s\n    c = s[i]\n    s = s[:i] + c.upper() + s[i+1:]\n    return s\n\ns = input()\ni = int(input())\nprint(change_char(s, i))\n",
+  "bugs": [
+   {
+    "line": 2,
+    "type": "index-range",
+    "explanation": "조건에서 i > len(s)만 확인하면 인덱스 len(s)에서 오류가 나요, 마지막 유효 인덱스는 len(s)-1이에요.",
+    "hint": "문자열의 마지막 문자 인덱스가 몇인지 생각해 보세요."
+   },
+   {
+    "line": 5,
+    "type": "missing-return",
+    "explanation": "함수를 수정한 뒤 return을 하지 않으면 None이 출력돼요.",
+    "hint": "함수에서 값을 돌려주는 문장을 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "hello\n1",
+    "expected_output": "hEllo"
+   },
+   {
+    "input": "hello\n0",
+    "expected_output": "Hello"
+   },
+   {
+    "input": "hello\n5",
+    "expected_output": "hello"
+   },
+   {
+    "input": "hello\n-1",
+    "expected_output": "hello"
+   }
+  ],
+  "quiz": {
+   "question": "이 코드에서 잘못된 부분을 모두 고른 것은?",
+   "choices": [
+    "조건식과 return 누락",
+    "조건식만 오류",
+    "return 누락만 오류",
+    "아무 오류 없음"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d38",
+  "topic": "문자열",
+  "level": 3,
+  "intent": "문자열 s와 문자 c를 입력받아 s에서 c를 모두 대문자로 바꾼 결과를 출력해요.",
+  "buggy_code": "s = input()\nc = input()\ni = 0\nwhile i < len(s):\n    if s[i] == c:\n        s = s[:i] + c.upper() + s[i+1:]\nprint(s)\n",
+  "fixed_code": "s = input()\nc = input()\ni = 0\nwhile i < len(s):\n    if s[i] == c:\n        s = s[:i] + c.upper() + s[i+1:]\n    i += 1\nprint(s)\n",
+  "bugs": [
+   {
+    "line": 6,
+    "type": "infinite-loop",
+    "explanation": "반복 변수 i를 증가시키는 코드가 없어서 조건이 변하지 않으면 무한히 돌 수 있어요.",
+    "hint": "while문이 끝날 수 있도록 매번 무엇이 바뀌어야 하는지 생각해 보세요."
+   },
+   {
+    "line": 6,
+    "type": "wrong-scope",
+    "explanation": "s를 함수 밖에서 바꾸더라도 반복 중에 문자열 길이가 달라지면 인덱스 접근이 어긋날 수 있어요.",
+    "hint": "반복하면서 문자열이 바뀌면 인덱스도 함께 신경 써야 해요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "banana\na",
+    "expected_output": "bAnAnA"
+   },
+   {
+    "input": "hello\nz",
+    "expected_output": "hello"
+   },
+   {
+    "input": "aaa\na",
+    "expected_output": "AAA"
+   },
+   {
+    "input": "a\na",
+    "expected_output": "A"
+   }
+  ],
+  "quiz": {
+   "question": "이 코드가 실행되면 어떤 문제가 생길 가능성이 가장 클까요?",
+   "choices": [
+    "i가 증가하지 않아서 같은 자리를 계속 확인하는 무한 루프가 생길 수 있어요.",
+    "input()이 두 번이라서 프로그램이 바로 종료돼요.",
+    "upper()가 문자 하나를 정수로 바꿔요.",
+    "while 조건이 항상 거짓이라서 바로 끝나요."
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d39",
+  "topic": "문자열",
+  "level": 3,
+  "intent": "문자열 s와 인덱스 i를 입력받아 s의 i번째 문자를 대문자로 바꾼 결과를 출력해요.",
+  "buggy_code": "s = input()\ni = int(input())\ndef fix_char(s, i):\n    if i < 0 or i >= len(s):\n        return s\n    char = s[i]\n    rest = s[:i] + s[i+1:]\n    return rest + char.upper()\nprint(fix_char(s, i))\n",
+  "fixed_code": "s = input()\ni = int(input())\ndef fix_char(s, i):\n    if i < 0 or i >= len(s):\n        return s\n    char = s[i]\n    rest = s[:i] + s[i+1:]\n    return s[:i] + char.upper() + s[i+1:]\nprint(fix_char(s, i))\n",
+  "bugs": [
+   {
+    "line": 8,
+    "type": "missing-return",
+    "explanation": "rest + char.upper()를 반환하면 바뀐 문자가 뒤에 붙어서 원래 위치가 아니에요. 원래 위치에 대문자로 넣은 문자열을 반환해야 해요.",
+    "hint": "반환하는 문자열에서 대문자로 바꾼 문자가 원래 인덱스 자리에 있는지 확인해 보세요."
+   },
+   {
+    "line": 8,
+    "type": "index-range",
+    "explanation": "인덱스 범위를 벗어나도 원래 문자열을 그대로 출력해야 하는데, 조건문이 반대라서 범위를 벗어날 때 처리되지 않아요.",
+    "hint": "인덱스가 문자열 길이보다 크거나 0보다 작을 때 원래 문자열을 그대로 돌려주는지 확인해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "hello\n1",
+    "expected_output": "hEllo"
+   },
+   {
+    "input": "hello\n0",
+    "expected_output": "Hello"
+   },
+   {
+    "input": "hello\n4",
+    "expected_output": "hellO"
+   },
+   {
+    "input": "abc\n5",
+    "expected_output": "abc"
+   }
+  ],
+  "quiz": {
+   "question": "이 코드에서 인덱스 i가 문자열 범위를 벗어날 때 어떤 결과가 나와야 하나요?",
+   "choices": [
+    "원래 문자열을 그대로 출력해요",
+    "빈 문자열을 출력해요",
+    "문자열의 마지막 문자를 대문자로 바꿔 출력해요",
+    "에러 메시지가 출력돼요"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d40",
+  "topic": "함수",
+  "level": 3,
+  "intent": "숫자 리스트를 입력받아 특정 인덱스의 값을 두 배로 바꿔 출력하는 코드예요.",
+  "buggy_code": "def double_at(lst, idx):\n    lst[idx] = lst[idx] * 2\n    return lst\n\ndata = input().split()\nnums = [int(x) for x in data]\npos = int(input())\nprint(double_at(nums, pos))\n",
+  "fixed_code": "def double_at(lst, idx):\n    idx = max(0, min(idx, len(lst) - 1))\n    lst[idx] = lst[idx] * 2\n    return lst\n\ndata = input().split()\nnums = [int(x) for x in data]\npos = int(input())\nprint(double_at(nums, pos))\n",
+  "bugs": [
+   {
+    "line": 1,
+    "type": "index-range",
+    "explanation": "입력한 인덱스가 리스트 범위를 벗어나면 오류가 발생해요.",
+    "hint": "인덱스를 사용하기 전에 리스트 길이 안에서 안전한 값으로 조정해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "1 2 3\n1",
+    "expected_output": "[1, 4, 3]"
+   },
+   {
+    "input": "5 10\n0",
+    "expected_output": "[10, 10]"
+   },
+   {
+    "input": "7 8 9\n2",
+    "expected_output": "[7, 8, 18]"
+   },
+   {
+    "input": "4 5\n5",
+    "expected_output": "[4, 10]"
+   }
+  ],
+  "quiz": {
+   "question": "인덱스가 리스트 범위를 벗어날 때 가장 먼저 확인해야 할 것은 무엇인가요?",
+   "choices": [
+    "리스트 길이와 인덱스 비교",
+    "입력값의 자료형",
+    "반복문 사용 여부",
+    "함수 이름"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d41",
+  "topic": "함수",
+  "level": 3,
+  "intent": "시작값과 끝값을 입력받아 그 사이의 수를 모두 더하는 함수를 만들고 결과를 출력해요.",
+  "buggy_code": "def sum_range(start, end):\n    total = 0\n    i = start\n    while i <= end:\n        total += i\n    return total\n\na = int(input())\nb = int(input())\nprint(sum_range(a, b))\n",
+  "fixed_code": "def sum_range(start, end):\n    total = 0\n    i = start\n    while i <= end:\n        total += i\n        i += 1\n    return total\n\na = int(input())\nb = int(input())\nprint(sum_range(a, b))\n",
+  "bugs": [
+   {
+    "line": 5,
+    "type": "infinite-loop",
+    "explanation": "반복 변수를 증가시키지 않아서 조건이 항상 참이 되고 끝나지 않아요.",
+    "hint": "while 문 안에서 조건이 결국 거짓이 되려면 어떤 변화가 필요한지 생각해 보세요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "1\n3",
+    "expected_output": "6"
+   },
+   {
+    "input": "5\n5",
+    "expected_output": "5"
+   },
+   {
+    "input": "2\n6",
+    "expected_output": "20"
+   },
+   {
+    "input": "10\n12",
+    "expected_output": "33"
+   }
+  ],
+  "quiz": {
+   "question": "이 while 반복문이 끝나지 않는 가장 큰 이유는 무엇인가요?",
+   "choices": [
+    "반복 변수가 갱신되지 않음",
+    "반환값이 없음",
+    "인덱스가 범위를 벗어남",
+    "함수 이름이 잘못됨"
+   ],
+   "answer": 0
+  }
+ },
+ {
+  "id": "d42",
+  "topic": "함수",
+  "level": 3,
+  "intent": "시작값과 끝값을 입력받아 그 사이의 짝수를 모두 더하는 함수를 만들고 결과를 출력해요.",
+  "buggy_code": "def sum_even(start, end):\n    total = 0\n    current = start\n    while current <= end:\n        if current % 2 == 0:\n            total += current\n    return total\na = int(input())\nb = int(input())\nprint(sum_even(a, b))\n",
+  "fixed_code": "def sum_even(start, end):\n    total = 0\n    current = start\n    while current <= end:\n        if current % 2 == 0:\n            total += current\n        current += 1\n    return total\na = int(input())\nb = int(input())\nprint(sum_even(a, b))\n",
+  "bugs": [
+   {
+    "line": 6,
+    "type": "infinite-loop",
+    "explanation": "반복 변수 current를 증가시키지 않아서 조건이 항상 참이 되어 무한 루프에 빠져요.",
+    "hint": "while 반복문에서 종료 조건을 바꾸려면 반복 변수를 갱신해야 해요."
+   }
+  ],
+  "tests": [
+   {
+    "input": "1\n5",
+    "expected_output": "6"
+   },
+   {
+    "input": "2\n6",
+    "expected_output": "12"
+   },
+   {
+    "input": "3\n3",
+    "expected_output": "0"
+   },
+   {
+    "input": "10\n10",
+    "expected_output": "10"
+   }
+  ],
+  "quiz": {
+   "question": "이 코드에서 sum_even 함수가 멈추지 않고 계속 실행되는 이유는 무엇인가요?",
+   "choices": [
+    "while 반복문 안에서 current 값을 증가시키지 않아서예요.",
+    "total 변수를 0으로 초기화하지 않아서예요.",
+    "current % 2 == 0 조건이 잘못되어서예요.",
+    "return total이 함수 끝에 없어서예요."
+   ],
+   "answer": 0
+  }
+ }
+]
