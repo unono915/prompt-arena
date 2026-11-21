@@ -518,8 +518,8 @@ a.btn { display: inline-flex; align-items: center; justify-content: center; colo
 a.btn.primary { color: var(--accent-ink); }
 
 /* 역할 = 선택 요소 표시 */
-.opt { font-size: 0.68rem; font-weight: 700; padding: 0 5px; border-radius: 5px; border: 1px dashed currentColor; opacity: 0.8; margin-left: 3px; vertical-align: 1px; }
-.flip-face b .opt { font-size: 0.65rem; }
+.opt { font-size: 0.72em; font-weight: 600; color: var(--ink-2); margin-left: 4px; }
+.chip.opt-chip:not(.lit) { border-style: dashed; }
 .meter > span.opt { width: 12px; margin-right: 6px; background: transparent; outline: 1.5px dashed var(--line); outline-offset: -1.5px; }
 .meter > span.opt.on { background: var(--c); outline-color: transparent; }
 

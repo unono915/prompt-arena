@@ -90,8 +90,8 @@ document.addEventListener("click", (e) => {
 
 function elementChips(found, { big = false, prev = null } = {}) {
   return `<ul class="chips ${big ? "big" : ""}" aria-label="프롬프트 6요소">${ELEMENTS.map(
-    (el) => `<li class="chip el-${el.key} ${found && found[el.key] ? "lit" : ""} ${prev && found && found[el.key] && !prev[el.key] ? "pop" : ""}" title="${esc(el.hint)}">
-      <span class="dot" aria-hidden="true"></span>${el.name}${el.optional ? `<small class="opt">선택</small>` : ""}<span class="sr">${found && found[el.key] ? " 포함" : " 없음"}</span></li>`
+    (el) => `<li class="chip el-${el.key} ${el.optional ? "opt-chip" : ""} ${found && found[el.key] ? "lit" : ""} ${prev && found && found[el.key] && !prev[el.key] ? "pop" : ""}" title="${esc(el.hint)}">
+      <span class="dot" aria-hidden="true"></span>${el.name}<span class="sr">${el.optional ? " (선택 요소)" : ""}${found && found[el.key] ? " 포함" : " 없음"}</span></li>`
   ).join("")}</ul>`;
 }
 
