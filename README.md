@@ -6,7 +6,7 @@
 ```
 public/                     정적 페이지 (Vercel outputDirectory)
   index.html, css/, js/app.js, js/rules.js(체크리스트 규칙·6요소 감지·채점)
-  data/missions.json        미션 5개 (스키마 준수)
+  data/missions.json        미션 10개 (스키마 준수)
   data/factcheck.json       팩트체크 보너스 정적 세트 (프록시 장애 시 폴백)
 api/solar-proxy.js          Vercel 함수 (POST /api/solar-proxy) — 요청·응답 형식만 맞춤
 lib/solar-proxy.js          브라우저 → 함수 → Upstage Solar 핵심 로직 (키는 환경변수에서만)
@@ -27,7 +27,7 @@ http://localhost:8888 — `.env`에 `UPSTAGE_API_KEY`가 없으면 **데모 모�
 3. 이후 `main`에 push하면 자동 배포
 
 ## 프록시 방어
-- 세션 토큰(HMAC 서명): 미션당 실행 3회, 게임당 실행 15회·판정 15회(실행 횟수 초과 판정 불가)
+- 세션 토큰(HMAC 서명): 미션당 실행 3회, 게임당 실행 30회·판정 30회 (미션 수 × 3)(실행 횟수 초과 판정 불가)
 - 학생 프롬프트 최대 1,000자, 요청 본문 12KB 제한, 등록된 미션 ID만 허용
 - 시스템 프롬프트로 수업 맥락 고정
 - 한계: 서버리스 특성상 "새 게임 시작"으로 새 세션을 받을 수 있음. 남용이 걱정되면 Vercel KV·Upstash 등으로 IP별 일일 한도를 추가.

@@ -52,6 +52,12 @@ const isSep = (l) => /^\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?$/.test(l);
 const cells = (l) => l.replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
 const parseList = (s) => s.replace(/^\[|\]$/g, "").split(",").map((x) => x.trim()).filter(Boolean);
 
+// JSON 출력 읽기: 코드 블록 표시(```json)는 벗겨 주되, 그 밖의 글이 섞이면 실패
+function parseJson(t) {
+  const body = t.trim().replace(/^```(?:json)?\s*\n?/i, "").replace(/\n?```$/, "").trim();
+  try { return JSON.parse(body); } catch { return undefined; }
+}
+
 function table(t) {
   const tl = tableLines(t);
   const sepIdx = tl.findIndex(isSep);
@@ -100,6 +106,31 @@ export function checkRule(rule, output, judgeChecks, id) {
   if ((m = rule.match(/^max_terms:(\d+):(\[.*\])$/))) {
     const used = parseList(m[2]).filter((w) => out.includes(w));
     return { ok: used.length <= +m[1], detail: used.length ? `사용: ${used.join(", ")} (${used.length}개)` : "0개" };
+  }
+  if ((m = rule.match(/^line_pattern:(.+)$/))) {
+    // 모든 줄이 정해진 모양인지 (굵게 표시 ** 는 무시)
+    const re = new RegExp(m[1]);
+    const ls = lines(out).map((l) => l.replace(/\*\*/g, "").trim());
+    const good = ls.filter((l) => re.test(l)).length;
+    return { ok: ls.length > 0 && good === ls.length, detail: `${ls.length}줄 중 ${good}줄이 모양에 맞음` };
+  }
+  if ((m = rule.match(/^json_array==(\d+)$/))) {
+    const j = parseJson(out);
+    if (!Array.isArray(j)) return { ok: false, detail: j === undefined ? "JSON으로 읽을 수 없음" : "배열이 아님" };
+    return { ok: j.length === +m[1], detail: `${j.length}개` };
+  }
+  if ((m = rule.match(/^json_keys:(\[.*\])$/))) {
+    const need = parseList(m[1]);
+    const j = parseJson(out);
+    if (!Array.isArray(j) || !j.length) return { ok: false, detail: "JSON 배열이 아님" };
+    const bad = j.filter((o) => !o || typeof o !== "object" || Object.keys(o).length !== need.length || !need.every((k) => k in o));
+    return { ok: bad.length === 0, detail: bad.length ? `키가 다른 항목 ${bad.length}개` : "키 모두 맞음" };
+  }
+  if ((m = rule.match(/^json_number:(.+)$/))) {
+    const j = parseJson(out);
+    if (!Array.isArray(j) || !j.length) return { ok: false, detail: "JSON 배열이 아님" };
+    const bad = j.filter((o) => !o || typeof o[m[1]] !== "number");
+    return { ok: bad.length === 0, detail: bad.length ? `숫자가 아닌 값 ${bad.length}개` : "모두 숫자" };
   }
   if (rule === "is_table") {
     const t = table(out);

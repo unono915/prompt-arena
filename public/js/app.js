@@ -77,6 +77,8 @@ function renderStatus() {
 function prog(id) {
   return (state.progress[id] ||= { attempts: [], cleared: false, revealed: false, best: 0 });
 }
+const remaining = () => state.missions.filter((m) => !(prog(m.id).cleared || prog(m.id).revealed)).length;
+const played = () => state.missions.filter((m) => prog(m.id).attempts.length).length;
 function go(view, extra = {}) {
   Object.assign(state, { view, liveFound: {} }, extra);
   render();
@@ -166,7 +168,7 @@ function viewHome() {
   </section>
 
   <section class="card">
-    <div class="row-between"><h2>미션</h2><span class="pill">${done} / ${state.missions.length} 완료 · <span id="home-total">${total}</span>점</span></div>
+    <div class="row-between"><h2>미션</h2><span class="crumbs-end"><span class="pill">${done} / ${state.missions.length} 완료 · <span id="home-total">${total}</span>점</span>${played() ? `<button class="btn ghost sm" data-go="final">결과 보기</button>` : ""}</span></div>
     <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${max}" aria-valuenow="${total}"><span style="width:${max ? (100 * total) / max : 0}%"></span></div>
     <ol class="mission-path">
       ${state.missions.map((m, i) => {
@@ -239,7 +241,7 @@ function viewMission() {
   }).join("");
 
   return `
-  <nav class="crumbs"><button class="link" data-go="home">← 미션 목록</button><span>미션 ${state.current + 1} / ${state.missions.length}</span></nav>
+  <nav class="crumbs"><button class="link" data-go="home">← 미션 목록</button><span class="crumbs-end">미션 ${state.current + 1} / ${state.missions.length}<button class="btn ghost sm" data-go="final">그만하고 결과 보기</button></span></nav>
   <div class="mission-grid">
     <section class="card brief">
       <div class="row-between"><span class="lv lv${m.level}">Lv${m.level} · ${esc(m.skill)}</span>
@@ -421,9 +423,9 @@ function viewFinal() {
   <section class="hero final">
     <p class="eyebrow">최종 결과</p>
     <h1><span class="num" id="final-num">${total}</span> <small>/ ${ms.length * 110}점</small></h1>
-    <p class="lede">${cleared}개 미션 클리어 · 총 ${attemptsAll}번 시도${state.fact.played ? ` · 팩트체크 보너스 ${state.fact.score}점` : ""}</p>
+    <p class="lede">${ms.length}개 미션 중 ${played()}개 도전 · ${cleared}개 클리어 · 총 ${attemptsAll}번 시도${state.fact.played ? ` · 팩트체크 보너스 ${state.fact.score}점` : ""}</p>
     ${weak.length ? `<p class="callout">더 연습하면 좋은 요소: ${weak.slice(0, 2).map((e) => `<strong class="t-${e.key}">${e.name}</strong>`).join(", ")}<br /><span class="muted">${esc(weak[0].hint)}</span></p>`
-      : attemptsAll ? `<p class="callout">핵심 5요소를 고르게 잘 썼어요!</p>` : ""}
+      : attemptsAll ? `<p class="callout">핵심 5요소를 고르게 잘 썼어요!</p>` : `<p class="callout">아직 프롬프트를 보낸 미션이 없어요. 미션을 하나 이상 풀면 6요소 그래프가 나와요.</p>`}
   </section>
   ${attemptsAll ? `<section class="card">
     <div class="row-between"><h2>내 프롬프트 6요소 그래프</h2>
@@ -445,7 +447,7 @@ function viewFinal() {
     </div>
   </section>` : ""}
   <section class="review">
-    ${ms.map((m) => {
+    ${ms.filter((m) => prog(m.id).attempts.length).map((m) => {
       const p = prog(m.id);
       const last = p.attempts[p.attempts.length - 1];
       const miss = last ? CORE.filter((e) => !last.found[e.key]).map((e) => e.name) : [];
@@ -459,7 +461,7 @@ function viewFinal() {
       </article>`;
     }).join("")}
   </section>
-  <div class="row-center"><button class="btn primary" id="restart">처음부터 다시</button><button class="btn ghost" data-go="fact">팩트체크 보너스</button></div>`;
+  <div class="row-center">${remaining() ? `<button class="btn primary" id="resume">이어서 하기 (${remaining()}개 남음)</button><button class="btn ghost" id="restart">처음부터 다시</button>` : `<button class="btn primary" id="restart">처음부터 다시</button>`}<button class="btn ghost" data-go="fact">팩트체크 보너스</button></div>`;
 }
 
 // ───────── 팩트체크 (정적 세트 · 프록시 장애 시에도 동작) ─────────
@@ -538,10 +540,12 @@ function bind() {
     });
     if (+n.textContent >= state.missions.length * 88) setTimeout(() => burst(n, { count: 50 }), 600);
   }
-  $("#start")?.addEventListener("click", () => {
+  const resume = () => {
     const i = state.missions.findIndex((m) => !(prog(m.id).cleared || prog(m.id).revealed));
     if (i === -1) go("final"); else go("mission", { current: i, draft: "", error: null });
-  });
+  };
+  $("#start")?.addEventListener("click", resume);
+  $("#resume")?.addEventListener("click", resume);
   $app.querySelectorAll("[data-mission]").forEach((b) =>
     b.addEventListener("click", () => go("mission", { current: +b.dataset.mission, draft: "", error: null }))
   );
