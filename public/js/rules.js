@@ -1,7 +1,8 @@
 // 체크리스트 규칙 검증 + 프롬프트 6요소 감지 (규칙 기반)
 
 export const ELEMENTS = [
-  { key: "role", name: "역할", josa: "이", hint: "AI에게 누구인지 알려 주세요. 예) 너는 중학교 정보 선생님이야.",
+  // 역할은 선택 요소: 요즘 모델은 역할 없이도 잘 답하고, 말투·관점이 중요할 때만 효과가 크다
+  { key: "role", name: "역할", josa: "이", optional: true, hint: "필요할 때만 써요. 말투나 관점을 정하고 싶을 때 도움이 돼요. 예) 너는 후배를 아끼는 고등학생 선배야.",
     re: /(너는|당신은)[^.?!\n]{0,30}?(야|이야|이다|입니다|역할)|역할을|역할로|[가-힣]+로서/g },
   { key: "task", name: "과제", josa: "가", hint: "무엇을 해야 하는지 동사로 분명히 쓰세요. 예) 요약해 줘, 표로 정리해 줘.",
     re: /요약|정리|설명|작성|만들어|만들|써 ?줘|알려 ?줘|바꿔|분류|번역/g },
@@ -14,6 +15,9 @@ export const ELEMENTS = [
   { key: "constraint", name: "제약", josa: "이", hint: "하지 말아야 할 것, 한도를 정하세요. 예) 단, 원문에 없는 내용은 쓰지 마.",
     re: /단[,\s]|하지 ?마|금지|이내|넘지|넘기지|반드시|만 (써|사용)|쓰지 마|덧붙이지|제외|이하|최대/g },
 ];
+
+// 점수·약점 분석에 쓰는 핵심 5요소 (역할 제외)
+export const CORE = ELEMENTS.filter((el) => !el.optional);
 
 export function detectElements(prompt) {
   const found = {};

@@ -1,11 +1,11 @@
-import { ELEMENTS, detectElements, elementSpans, scoreAttempt } from "./rules.js";
+import { CORE, ELEMENTS, detectElements, elementSpans, scoreAttempt } from "./rules.js";
 import { burst, countUp, magnetic, reduced, sleep, stagger } from "./motion.js";
 
 // 6요소 카드용 짧은 설명과 대표 글자
-const EL_SHORT = { role: "AI에게 맡길 역할", task: "해야 할 일", context: "대상·목적·상황", format: "출력 모양", example: "원하는 출력 예", constraint: "하지 말 것·한도" };
+const EL_SHORT = { role: "필요할 때만 · 말투·관점", task: "해야 할 일", context: "대상·목적·상황", format: "출력 모양", example: "원하는 출력 예", constraint: "하지 말 것·한도" };
 const DEMO_PROMPTS = [
   "아래 글을 요약해 줘.",
-  "너는 중학생에게 과학을 가르치는 선생님이야. 아래 글을 중학생 후배가 읽기 쉽게 3줄로 요약해 줘. 예: '인공지능은 ~해요.'처럼 써 줘. 단, 원문에 없는 내용은 쓰지 마.",
+  "아래 글을 중학생 후배가 읽기 쉽게 3줄로 요약해 줘. 예: '인공지능은 ~해요.'처럼 써 줘. 단, 원문에 없는 내용은 쓰지 마.",
 ];
 
 const API = "/api/solar-proxy";
@@ -91,15 +91,15 @@ document.addEventListener("click", (e) => {
 function elementChips(found, { big = false, prev = null } = {}) {
   return `<ul class="chips ${big ? "big" : ""}" aria-label="프롬프트 6요소">${ELEMENTS.map(
     (el) => `<li class="chip el-${el.key} ${found && found[el.key] ? "lit" : ""} ${prev && found && found[el.key] && !prev[el.key] ? "pop" : ""}" title="${esc(el.hint)}">
-      <span class="dot" aria-hidden="true"></span>${el.name}<span class="sr">${found && found[el.key] ? " 포함" : " 없음"}</span></li>`
+      <span class="dot" aria-hidden="true"></span>${el.name}${el.optional ? `<small class="opt">선택</small>` : ""}<span class="sr">${found && found[el.key] ? " 포함" : " 없음"}</span></li>`
   ).join("")}</ul>`;
 }
 
 function meter(found) {
-  const n = ELEMENTS.filter((el) => found[el.key]).length;
-  return `<div class="meter" role="img" aria-label="6요소 중 ${n}개 포함">
-    ${ELEMENTS.map((el) => `<span class="seg-${el.key} el-${el.key} ${found[el.key] ? "on" : ""}"></span>`).join("")}
-    <b>${n}<small>/6</small></b></div>`;
+  const n = CORE.filter((el) => found[el.key]).length;
+  return `<div class="meter" role="img" aria-label="핵심 5요소 중 ${n}개 포함${found.role ? ", 역할도 씀" : ""}">
+    ${ELEMENTS.map((el) => `<span class="seg-${el.key} el-${el.key} ${el.optional ? "opt" : ""} ${found[el.key] ? "on" : ""}"></span>`).join("")}
+    <b>${n}<small>/5</small></b></div>`;
 }
 
 function renderOutput(text) {
@@ -152,13 +152,13 @@ function viewHome() {
   </section>
 
   <section class="card">
-    <div class="row-between"><h2>프롬프트 6요소</h2><span class="muted small">카드를 눌러 예시를 확인해요</span></div>
+    <div class="row-between"><h2>프롬프트 6요소</h2><span class="muted small">카드를 눌러 예시를 확인해요 · 역할은 필요할 때만 써요</span></div>
     <div class="flip-grid">
       ${ELEMENTS.map((el) => {
         const [desc, ex] = el.hint.split(/\s*예\)\s*/);
         return `<button class="flip el-${el.key}" aria-pressed="false" aria-label="${el.name}: ${esc(EL_SHORT[el.key])}. 예시 보기">
           <span class="flip-inner">
-            <span class="flip-face front"><span class="f-icon">${el.name[0]}</span><b>${el.name}</b><small>${esc(EL_SHORT[el.key])}</small></span>
+            <span class="flip-face front"><span class="f-icon">${el.name[0]}</span><b>${el.name}${el.optional ? ` <span class="opt">선택</span>` : ""}</b><small>${esc(EL_SHORT[el.key])}</small></span>
             <span class="flip-face back"><small>${esc(desc)}</small><span class="f-ex">${esc(ex || "")}</span></span>
           </span></button>`;
       }).join("")}
@@ -199,9 +199,9 @@ async function runPromptDemo() {
     return f;
   };
   const judge = (f) => {
-    const n = ELEMENTS.filter((el) => f[el.key]).length;
-    verdict.textContent = n >= 5 ? `요소 ${n}개 — AI가 조건을 지키기 쉬워요` : `요소 ${n}개 — AI가 무엇을 원하는지 짐작해야 해요`;
-    verdict.className = "pd-verdict " + (n >= 5 ? "good" : "weak");
+    const n = CORE.filter((el) => f[el.key]).length;
+    verdict.textContent = n >= 4 ? `핵심 요소 ${n}개 — 역할 없이도 AI가 조건을 지키기 쉬워요` : `핵심 요소 ${n}개 — AI가 무엇을 원하는지 짐작해야 해요`;
+    verdict.className = "pd-verdict " + (n >= 4 ? "good" : "weak");
   };
   if (reduced()) { judge(show(DEMO_PROMPTS[1])); return; }
   while (typed.isConnected) {
@@ -288,7 +288,7 @@ function attemptView(m, a, p) {
     pos = sp.end;
   }
   html += esc(a.prompt.slice(pos));
-  const missing = ELEMENTS.filter((el) => !a.found[el.key]);
+  const missing = CORE.filter((el) => !a.found[el.key]);
   const failed = s.results.filter((r) => r.ok === false);
   return `
   <div class="result">
@@ -370,35 +370,85 @@ async function send() {
 }
 
 // ───────── 최종 ─────────
+// 6요소 육각형 그래프: 내 사용률(전체 시도 기준)과 모범 프롬프트를 겹쳐 그린다
+function radar(me, ref) {
+  const cx = 200, cy = 170, R = 110;
+  const ang = (i) => ((i * 60 - 90) * Math.PI) / 180;
+  const pt = (i, v) => [cx + R * v * Math.cos(ang(i)), cy + R * v * Math.sin(ang(i))].map((n) => n.toFixed(1));
+  const poly = (vals) => ELEMENTS.map((el, i) => pt(i, vals[el.key]).join(",")).join(" ");
+  const pct = (v) => Math.round(v * 100);
+  const rings = [0.25, 0.5, 0.75, 1].map((k) => `<polygon class="rd-ring" points="${poly(Object.fromEntries(ELEMENTS.map((e) => [e.key, k])))}"/>`).join("");
+  const axes = ELEMENTS.map((el, i) => { const [x, y] = pt(i, 1); return `<line class="rd-axis ${el.optional ? "opt" : ""}" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"/><circle class="rd-tip el-${el.key}" cx="${x}" cy="${y}" r="3.5"/>`; }).join("");
+  const labels = ELEMENTS.map((el, i) => {
+    const [x, y] = pt(i, 1.24);
+    const c = Math.cos(ang(i));
+    const anchor = Math.abs(c) < 0.2 ? "middle" : c > 0 ? "start" : "end";
+    return `<text class="rd-label" x="${x}" y="${y}" text-anchor="${anchor}" dominant-baseline="middle"><tspan class="rd-name">${el.name}${el.optional ? "(선택)" : ""}</tspan><tspan class="rd-val" dx="5">${pct(me[el.key])}%</tspan></text>`;
+  }).join("");
+  const dots = ELEMENTS.map((el, i) => { const [x, y] = pt(i, me[el.key]); return `<circle class="rd-dot" cx="${x}" cy="${y}" r="4.5"/>`; }).join("");
+  const hits = ELEMENTS.map((el, i) => { const [x, y] = pt(i, me[el.key]); return `<circle class="rd-hit" cx="${x}" cy="${y}" r="16" tabindex="0" data-tip="${el.name} · 나 ${pct(me[el.key])}% · 모범 ${pct(ref[el.key])}%"><title>${el.name}: 나 ${pct(me[el.key])}%, 모범 프롬프트 ${pct(ref[el.key])}%</title></circle>`; }).join("");
+  return `<div class="radar-wrap">
+    <svg class="radar" viewBox="0 0 400 340" role="img" aria-label="프롬프트 6요소 사용률 육각형 그래프. ${ELEMENTS.map((e) => `${e.name} ${pct(me[e.key])}%`).join(", ")}">
+      ${rings}${axes}
+      <text class="rd-tick" x="${cx + 4}" y="${cy - R * 0.5}">50%</text><text class="rd-tick" x="${cx + 4}" y="${cy - R}">100%</text>
+      <polygon class="rd-ref" points="${poly(ref)}"/>
+      <g class="rd-me-g"><polygon class="rd-me" points="${poly(me)}"/>${dots}</g>
+      ${labels}${hits}
+    </svg>
+    <div class="rd-tooltip" hidden></div>
+  </div>`;
+}
+
 function viewFinal() {
   const ms = state.missions;
   const total = ms.reduce((a, m) => a + prog(m.id).best, 0);
-  const missCount = Object.fromEntries(ELEMENTS.map((e) => [e.key, 0]));
+  const useCount = Object.fromEntries(ELEMENTS.map((e) => [e.key, 0]));
   let attemptsAll = 0;
-  ms.forEach((m) => prog(m.id).attempts.forEach((a) => { attemptsAll++; ELEMENTS.forEach((e) => { if (!a.found[e.key]) missCount[e.key]++; }); }));
-  const often = ELEMENTS.filter((e) => attemptsAll && missCount[e.key] / attemptsAll >= 0.5).sort((a, b) => missCount[b.key] - missCount[a.key]);
+  ms.forEach((m) => prog(m.id).attempts.forEach((a) => { attemptsAll++; ELEMENTS.forEach((e) => { if (a.found[e.key]) useCount[e.key]++; }); }));
+  const me = Object.fromEntries(ELEMENTS.map((e) => [e.key, attemptsAll ? useCount[e.key] / attemptsAll : 0]));
+  const refFound = ms.map((m) => detectElements(m.model_prompt));
+  const ref = Object.fromEntries(ELEMENTS.map((e) => [e.key, refFound.filter((f) => f[e.key]).length / (ms.length || 1)]));
+  // 더 연습할 요소: 핵심 5요소 중 모범 프롬프트보다 30%p 이상 덜 쓴 요소 (차이가 큰 순)
+  const weak = CORE.filter((e) => ref[e.key] - me[e.key] >= 0.3).sort((a, b) => me[a.key] - ref[a.key] - (me[b.key] - ref[b.key]));
+  const pct = (v) => Math.round(v * 100);
   const cleared = ms.filter((m) => prog(m.id).cleared).length;
+  const roleNote = me.role >= 0.7
+    ? "역할을 거의 매번 넣었어요. 다음에는 역할 문장을 빼고, 그 자리에 누가 읽는지와 왜 필요한지(맥락)를 더 자세히 써 보세요. 결과가 비슷하거나 더 좋다면 역할은 없어도 되는 거예요."
+    : me.role >= 0.3
+      ? "역할을 쓴 미션과 안 쓴 미션의 결과를 비교해 보세요. 말투나 관점이 중요한 미션(선배처럼 설명하기, 반장으로 공지 쓰기)에서만 써도 충분해요."
+      : "역할을 거의 안 썼어도 괜찮아요. 말투나 관점이 중요한 미션(선배처럼 설명하기, 반장으로 공지 쓰기)에서만 써 보세요.";
   return `
   <section class="hero final">
     <p class="eyebrow">최종 결과</p>
     <h1><span class="num" id="final-num">${total}</span> <small>/ ${ms.length * 110}점</small></h1>
     <p class="lede">${cleared}개 미션 클리어 · 총 ${attemptsAll}번 시도${state.fact.played ? ` · 팩트체크 보너스 ${state.fact.score}점` : ""}</p>
-    ${often.length ? `<p class="callout">내 프롬프트에서 자주 빠진 요소: ${often.map((e) => `<strong class="t-${e.key}">${e.name}</strong>`).join(", ")}<br /><span class="muted">${esc(often[0].hint)}</span></p>`
-      : attemptsAll ? `<p class="callout">6요소를 고르게 잘 썼어요!</p>` : ""}
+    ${weak.length ? `<p class="callout">더 연습하면 좋은 요소: ${weak.slice(0, 2).map((e) => `<strong class="t-${e.key}">${e.name}</strong>`).join(", ")}<br /><span class="muted">${esc(weak[0].hint)}</span></p>`
+      : attemptsAll ? `<p class="callout">핵심 5요소를 고르게 잘 썼어요!</p>` : ""}
   </section>
   ${attemptsAll ? `<section class="card">
-    <h2>내 프롬프트의 6요소 사용률</h2>
-    <p class="muted small">전체 ${attemptsAll}번 시도 중 각 요소를 넣은 비율이에요.</p>
-    <div class="cover-bars">${ELEMENTS.map((e) => {
-      const pct = Math.round((100 * (attemptsAll - missCount[e.key])) / attemptsAll);
-      return `<div class="cover el-${e.key}"><span class="c-name">${e.name}</span><span class="c-track"><span class="c-fill" style="--w:${pct}%"></span></span><b>${pct}%</b></div>`;
-    }).join("")}</div>
+    <div class="row-between"><h2>내 프롬프트 6요소 그래프</h2>
+      <ul class="rd-legend" aria-label="범례"><li><span class="sw me"></span>내 프롬프트</li><li><span class="sw ref"></span>모범 프롬프트</li></ul></div>
+    <p class="muted small">전체 ${attemptsAll}번 시도 중 각 요소를 넣은 비율이에요. 바깥으로 갈수록 자주 썼다는 뜻이에요. 점선은 모범 프롬프트예요.</p>
+    <div class="radar-layout">
+      ${radar(me, ref)}
+      <div>
+        <table class="rd-table">
+          <thead><tr><th scope="col">요소</th><th scope="col">나</th><th scope="col">모범</th></tr></thead>
+          <tbody>${ELEMENTS.map((e) => `<tr class="${weak.includes(e) ? "weak" : ""}"><th scope="row"><span class="dot el-${e.key}"></span>${e.name}${e.optional ? ` <small class="opt">선택</small>` : ""}</th><td>${pct(me[e.key])}%</td><td>${pct(ref[e.key])}%</td></tr>`).join("")}</tbody>
+        </table>
+        <div class="role-note">
+          <p><strong>역할은 왜 '선택'일까요?</strong></p>
+          <p>요즘 AI는 "너는 전문가야"라고 하지 않아도 잘 답해요. 역할만 붙여서는 정답률이 꾸준히 오르지 않았다는 연구도 있어요. 그보다 누가 읽는지(맥락), 어떤 모양으로 받을지(형식·예시), 무엇을 피할지(제약)를 구체적으로 쓰는 게 더 효과적이에요.</p>
+          <p class="muted">내 역할 사용률 ${pct(me.role)}% — ${roleNote}</p>
+        </div>
+      </div>
+    </div>
   </section>` : ""}
   <section class="review">
     ${ms.map((m) => {
       const p = prog(m.id);
       const last = p.attempts[p.attempts.length - 1];
-      const miss = last ? ELEMENTS.filter((e) => !last.found[e.key]).map((e) => e.name) : [];
+      const miss = last ? CORE.filter((e) => !last.found[e.key]).map((e) => e.name) : [];
       return `<article class="card rcard">
         <div class="row-between"><span class="lv lv${m.level}">Lv${m.level}</span>${p.cleared ? `<span class="pill ok">클리어</span>` : `<span class="pill">${last ? "미클리어" : "안 함"}</span>`}</div>
         <h3>${esc(m.title)}</h3>
@@ -472,7 +522,20 @@ function bind() {
     const n = $("#final-num");
     countUp(n, +n.textContent, { ms: 1400 });
     stagger($(".review"), ":scope > *", 90);
-    requestAnimationFrame(() => $app.querySelectorAll(".c-fill").forEach((el) => el.classList.add("grow")));
+    requestAnimationFrame(() => $(".radar")?.classList.add("grow"));
+    const wrap = $(".radar-wrap"), tip = $(".rd-tooltip");
+    wrap?.querySelectorAll(".rd-hit").forEach((h) => {
+      const show = () => {
+        const r = h.getBoundingClientRect(), w = wrap.getBoundingClientRect();
+        tip.textContent = h.dataset.tip;
+        tip.hidden = false;
+        tip.style.left = r.left - w.left + r.width / 2 + "px";
+        tip.style.top = r.top - w.top + "px";
+      };
+      const hide = () => (tip.hidden = true);
+      h.addEventListener("pointerenter", show); h.addEventListener("focus", show);
+      h.addEventListener("pointerleave", hide); h.addEventListener("blur", hide);
+    });
     if (+n.textContent >= state.missions.length * 88) setTimeout(() => burst(n, { count: 50 }), 600);
   }
   $("#start")?.addEventListener("click", () => {
