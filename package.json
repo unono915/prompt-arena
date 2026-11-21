@@ -2,7 +2,7 @@
   "name": "prompt-arena",
   "version": "0.1.0",
   "private": true,
-  "description": "프롬프트 아레나 — 고 인공지능 기초 프롬프트 설계 게임 (Netlify + Upstage Solar)",
+  "description": "프롬프트 아레나 — 고 인공지능 기초 프롬프트 설계 게임 (Vercel + Upstage Solar)",
   "scripts": {
     "dev": "node dev-server.js"
   },

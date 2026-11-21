@@ -1,4 +1,4 @@
-// 로컬 개발 서버: public/ 정적 파일 + Netlify Function 실행 (netlify-cli 없이 테스트용)
+// 로컬 개발 서버: public/ 정적 파일 + Vercel 함수(api/solar-proxy.js) 실행 (vercel CLI 없이 테스트용)
 // .env 에 UPSTAGE_API_KEY 가 있으면 실제 Solar 호출, 없으면 모의 응답(SOLAR_MOCK=1)으로 동작한다.
 const http = require("http");
 const fs = require("fs");
@@ -13,27 +13,26 @@ if (fs.existsSync(envFile)) {
 }
 if (!process.env.UPSTAGE_API_KEY && !process.env.SOLAR_MOCK) process.env.SOLAR_MOCK = "1";
 
-const { handler } = require("./netlify/functions/solar-proxy");
+const solarProxy = require("./api/solar-proxy");
 const ROOT = path.join(__dirname, "public");
 const PORT = +process.argv[2] || +process.env.PORT || 8888;
-// netlify.toml 의 보안 헤더를 로컬에서도 똑같이 보내 CSP 문제를 배포 전에 확인한다
+// vercel.json 의 보안 헤더를 로컬에서도 똑같이 보내 CSP 문제를 배포 전에 확인한다
 const SEC_HEADERS = {};
 try {
-  const toml = fs.readFileSync(path.join(__dirname, "netlify.toml"), "utf8");
-  for (const m of toml.matchAll(/^\s*([A-Za-z-]+)\s*=\s*"(.*)"\s*$/gm)) if (/^(Content-Security-Policy|X-Frame-Options|X-Content-Type-Options|Referrer-Policy|Permissions-Policy)$/.test(m[1])) SEC_HEADERS[m[1]] = m[2];
+  const conf = JSON.parse(fs.readFileSync(path.join(__dirname, "vercel.json"), "utf8"));
+  for (const h of conf.headers?.[0]?.headers || []) if (h.key !== "Strict-Transport-Security") SEC_HEADERS[h.key] = h.value;
 } catch {}
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml" };
 
 http
   .createServer(async (req, res) => {
     const url = new URL(req.url, "http://localhost");
-    if (url.pathname === "/.netlify/functions/solar-proxy") {
+    if (url.pathname === "/api/solar-proxy") {
       let body = "";
       req.on("data", (c) => (body += c));
-      req.on("end", async () => {
-        const r = await handler({ httpMethod: req.method, body, headers: req.headers });
-        res.writeHead(r.statusCode, r.headers);
-        res.end(r.body);
+      req.on("end", () => {
+        req.body = body; // Vercel 처럼 본문을 req.body 로 넘긴다
+        solarProxy(req, res);
       });
       return;
     }

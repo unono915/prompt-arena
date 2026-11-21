@@ -8,7 +8,7 @@ const DEMO_PROMPTS = [
   "너는 중학생에게 과학을 가르치는 선생님이야. 아래 글을 중학생 후배가 읽기 쉽게 3줄로 요약해 줘. 예: '인공지능은 ~해요.'처럼 써 줘. 단, 원문에 없는 내용은 쓰지 마.",
 ];
 
-const API = "/.netlify/functions/solar-proxy";
+const API = "/api/solar-proxy";
 const MAX_CHARS = 1000;
 const ATTEMPTS = 3;
 

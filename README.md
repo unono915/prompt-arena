@@ -4,13 +4,15 @@
 
 ## 구조
 ```
-public/                     정적 페이지 (Netlify publish)
+public/                     정적 페이지 (Vercel outputDirectory)
   index.html, css/, js/app.js, js/rules.js(체크리스트 규칙·6요소 감지·채점)
   data/missions.json        미션 5개 (스키마 준수)
   data/factcheck.json       팩트체크 보너스 정적 세트 (프록시 장애 시 폴백)
-netlify/functions/solar-proxy.js   브라우저 → 함수 → Upstage Solar (키는 환경변수에서만)
-netlify/lib/mock.js         키 없을 때 로컬 시연용 모의 응답 (SOLAR_MOCK=1)
-dev-server.js               netlify-cli 없이 로컬 실행
+api/solar-proxy.js          Vercel 함수 (POST /api/solar-proxy) — 요청·응답 형식만 맞춤
+lib/solar-proxy.js          브라우저 → 함수 → Upstage Solar 핵심 로직 (키는 환경변수에서만)
+lib/mock.js                 키 없을 때 로컬 시연용 모의 응답 (SOLAR_MOCK=1)
+vercel.json                 출력 폴더·함수 리전(서울 icn1)·보안 헤더(CSP 등)
+dev-server.js               vercel CLI 없이 로컬 실행 (vercel.json 헤더도 똑같이 적용)
 ```
 
 ## 로컬 실행
@@ -19,15 +21,16 @@ npm run dev
 ```
 http://localhost:8888 — `.env`에 `UPSTAGE_API_KEY`가 없으면 **데모 모드(모의 응답)**, 있으면 실제 Solar를 호출합니다 (`.env.example` 참고).
 
-## Netlify 배포
-1. 이 폴더를 Netlify에 연결 (빌드 명령 없음, publish=`public`, functions=`netlify/functions` — `netlify.toml`에 설정됨)
-2. Site configuration → Environment variables에 `UPSTAGE_API_KEY` 등록 (선택: `SOLAR_RUN_MODEL`, `SOLAR_JUDGE_MODEL`, `SESSION_SECRET`)
+## Vercel 배포
+1. Vercel에서 이 GitHub 저장소를 가져오기 (Framework Preset: Other, 빌드 명령 없음 — `vercel.json`에 설정됨)
+2. Project Settings → Environment Variables에 `UPSTAGE_API_KEY` 등록 (선택: `SOLAR_RUN_MODEL`, `SOLAR_JUDGE_MODEL`, `SESSION_SECRET`) 후 재배포
+3. 이후 `main`에 push하면 자동 배포
 
 ## 프록시 방어
 - 세션 토큰(HMAC 서명): 미션당 실행 3회, 게임당 실행 15회·판정 15회(실행 횟수 초과 판정 불가)
 - 학생 프롬프트 최대 1,000자, 요청 본문 12KB 제한, 등록된 미션 ID만 허용
 - 시스템 프롬프트로 수업 맥락 고정
-- 한계: 서버리스 특성상 "새 게임 시작"으로 새 세션을 받을 수 있음. 남용이 걱정되면 Netlify Blobs 등으로 IP별 일일 한도를 추가.
+- 한계: 서버리스 특성상 "새 게임 시작"으로 새 세션을 받을 수 있음. 남용이 걱정되면 Vercel KV·Upstash 등으로 IP별 일일 한도를 추가.
 
 ---
 
